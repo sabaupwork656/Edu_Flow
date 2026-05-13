@@ -1,42 +1,45 @@
-<div class="max-w-lg mx-auto bg-white border border-slate-100 rounded-2xl shadow-sm p-6 space-y-6">
-  <div class="space-y-1">
-    <p class="text-sm text-slate-500">Create your account</p>
-    <h1 class="text-2xl font-bold text-slate-900">Join EduFlow</h1>
+<div class="auth-card auth-card--signup">
+  <div class="auth-card__header">
+    <p class="auth-card__eyebrow">Create your account</p>
+    <h1>Join EduFlow</h1>
+    <p>Set up your LMS profile and start building a focused learning space.</p>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div>
-      <%= f.label :full_name, class: "block text-sm font-semibold text-slate-700 mb-1" %>
-      <%= f.text_field :full_name, autofocus: true, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
+    <div class="auth-grid">
+      <div class="auth-field">
+        <%= f.label :full_name %>
+        <%= f.text_field :full_name, autofocus: true, placeholder: "Full name", class: "auth-input" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autocomplete: "email", placeholder: "you@example.com", class: "auth-input" %>
+      </div>
+
+      <div class="auth-field auth-field--wide">
+        <%= f.label :role %>
+        <%= f.select :role, User.roles.keys.map { |role| [role.humanize, role] }, {}, class: "auth-input" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+          <p class="auth-hint"><%= @minimum_password_length %> characters minimum</p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a password", class: "auth-input" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm password", class: "auth-input" %>
+      </div>
     </div>
 
-    <div>
-      <%= f.label :email, class: "block text-sm font-semibold text-slate-700 mb-1" %>
-      <%= f.email_field :email, autocomplete: "email", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
-    </div>
-
-    <div>
-      <%= f.label :role, class: "block text-sm font-semibold text-slate-700 mb-1" %>
-      <%= f.select :role, User.roles.keys.map { |role| [role.humanize, role] }, {}, class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
-    </div>
-
-    <div>
-      <%= f.label :password, class: "block text-sm font-semibold text-slate-700 mb-1" %>
-      <% if @minimum_password_length %>
-        <p class="text-xs text-slate-500 mb-1">(<%= @minimum_password_length %> characters minimum)</p>
-      <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
-    </div>
-
-    <div>
-      <%= f.label :password_confirmation, class: "block text-sm font-semibold text-slate-700 mb-1" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500" %>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <%= f.submit "Sign up", class: "px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold shadow" %>
+    <div class="auth-actions">
+      <%= f.submit "Sign up", class: "auth-submit" %>
       <%= render "devise/shared/links" %>
     </div>
   <% end %>
